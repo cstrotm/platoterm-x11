@@ -100,8 +100,10 @@ unsigned short port;
  */
 void screen_main()
 {
-	if (!XPending(display))
-		return;
+  if (!XPending(display)) {
+    usleep(1000);
+    return;
+  }
 
 	XNextEvent(display,&event);
 	if (event.type == KeyPress)

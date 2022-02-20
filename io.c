@@ -76,7 +76,6 @@ void io_main()
 {
 	rxlen = read(sockfd, &rxBuf[0], sizeof(rxBuf));
 	if (rxlen < 0 ) {
-       	  usleep(100);
 	  return;
 	}
 

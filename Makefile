@@ -1,4 +1,4 @@
-CFLAGS=-DXLIB_ILLEGAL_ACCESS
+CFLAGS=-Os -DXLIB_ILLEGAL_ACCESS
 X11_INCLUDE=/usr/openwin/include
 X11_LIBS=/usr/X11/lib
 X11_LIBS=/usr/openwin/lib

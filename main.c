@@ -21,13 +21,13 @@ char *argv[];
 {
 	if (argc<3)
 	{
-		printf("%s <host> <port>\n",argv[0]);
-		exit(1);
+	  strlcpy(hostname,"irata.online",sizeof(hostname));
+	  port=atoi("8005");
 	}
 	else
 	{
-		strcpy(hostname,argv[1]);
-		port=atoi(argv[2]);
+	  strlcpy(hostname,argv[1],sizeof(hostname));
+	  port=atoi(argv[2]);
 	}
 
 
