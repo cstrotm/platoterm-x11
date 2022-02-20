@@ -75,8 +75,10 @@ unsigned char b;
 io_main()
 {
 	rxlen = read(sockfd, &rxBuf[0], sizeof(rxBuf));
-	if (rxlen < 0 )
-		return;
+	if (rxlen < 0 ) {
+       	  usleep(1000);
+	  return;
+	}
 
 	/* copy to replay buffer */
 	bcopy(&rxBuf[0],&replaybuf[replaylen],rxlen);
