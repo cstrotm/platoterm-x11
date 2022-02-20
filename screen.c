@@ -11,6 +11,8 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
+#include <stdlib.h>
+#include <string.h>
 #include "splash.h"
 #include "screen.h"
 #include "protocol.h"
@@ -96,7 +98,7 @@ unsigned short port;
 /**
  * screen_main() - render/preserve screen
  */
-screen_main()
+void screen_main()
 {
 	if (!XPending(display))
 		return;
@@ -151,7 +153,7 @@ screen_beep()
 /**
  * screen_clear - Clear the screen
  */
-screen_clear()
+void screen_clear()
 {
 	io_replay_clear();
 	screen_clear_colors();
@@ -168,7 +170,7 @@ screen_clear()
 /**
  * screen_set_pen_mode() - Set pen mode
  */
-screen_set_pen_mode()
+void screen_set_pen_mode()
 {
 	if (CurMode == ModeErase || CurMode == ModeInverse)
 	{
@@ -223,7 +225,7 @@ padPt* Coord2;
 /**
  * screen_char_draw(Coord, ch, count) - Output buffer from ch* of length count as PLATO characters
  */
-screen_char_draw(Coord, ch, count)
+void screen_char_draw(Coord, ch, count)
 padPt* Coord;
 unsigned char* ch;
 unsigned char count;
@@ -418,7 +420,7 @@ unsigned char count;
 /**
  * screen_tty_char - Called to plot chars when in tty mode
  */
-screen_tty_char(theChar)
+void screen_tty_char(theChar)
 padByte theChar;
 {
   if ((theChar >= 0x20) && (theChar < 0x7F)) {
@@ -458,7 +460,7 @@ screen_clear_colors()
 	int i;
 
 	if (usedColors==0)
-		return;
+		return 0;
 
 	for (i=0;i<usedColors;i++)
 	{
@@ -543,7 +545,7 @@ padRGB* theColor;
 /**
  * Recursive flood fill
  */
-_screen_paint(x,y,oldpixel,newpixel)
+void _screen_paint(x,y,oldpixel,newpixel)
 unsigned long oldpixel,newpixel;
 {
 	unsigned long p = XGetPixel(image,x,y);
@@ -579,7 +581,7 @@ padPt* Coord;
  * screen_done()
  * Close down TGI
  */
-screen_done()
+void screen_done()
 {
 	screen_clear_colors();
 	XFreeGC(display,gc);

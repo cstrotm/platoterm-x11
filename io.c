@@ -72,11 +72,11 @@ unsigned char b;
 /**
  * io_main() - The IO main loop
  */
-io_main()
+void io_main()
 {
 	rxlen = read(sockfd, &rxBuf[0], sizeof(rxBuf));
 	if (rxlen < 0 ) {
-       	  usleep(1000);
+       	  usleep(100);
 	  return;
 	}
 

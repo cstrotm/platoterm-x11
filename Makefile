@@ -2,6 +2,8 @@ CFLAGS=-DXLIB_ILLEGAL_ACCESS
 X11_INCLUDE=/usr/openwin/include
 X11_LIBS=/usr/X11/lib
 X11_LIBS=/usr/openwin/lib
+X11_LIBS=/usr/X11R6/lib
+X11_INCLUDE=/usr/X11R6/include
 OBJ=main.o touch.o io.o keyboard.o screen.o terminal.o protocol.o
 
 all: platoterm

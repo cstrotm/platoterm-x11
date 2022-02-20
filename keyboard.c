@@ -9,7 +9,7 @@
 
 unsigned char ch;
 
-keyboard_out(platoKey)
+void keyboard_out(platoKey)
 unsigned char platoKey;
 {
   if (platoKey==0xff)
