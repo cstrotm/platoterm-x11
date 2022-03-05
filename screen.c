@@ -1,9 +1,10 @@
 /**
- * PLATOTerm64 - A PLATO Terminal for the Commodore 64
+ * PLATOTerm X11 - A PLATO Terminal for Unix X11 GUI
  * Based on Steve Peltz's PAD
  * 
  * Author: Thomas Cherryhomes <thom.cherryhomes at gmail dot com>
- *
+ * Author: Carsten Strotmann <cstrotm at strotmann dot de>
+ * 
  * screen.c - Display output functions
  */
 
@@ -72,27 +73,43 @@ screen_init(hostname, port)
 char* hostname;
 unsigned short port;
 {
-	int i;
-	sprintf(win_title,"PLATOterm: %s:%u",hostname,port);
-	display=XOpenDisplay((char *)0);
-	screen=DefaultScreen(display);
-	black=BlackPixel(display,screen);
-	white=WhitePixel(display,screen);
-	win=XCreateSimpleWindow(display,DefaultRootWindow(display),0,0,512,512,5,white,black);
-	XSetStandardProperties(display,win,win_title,win_title,None,NULL,0,NULL);
-	XSelectInput(display,win,ExposureMask|ButtonPressMask|KeyPressMask);
-	gc=XCreateGC(display,win,0,0);
-	colormap = DefaultColormap(display, DefaultScreen(display));
-	XClearWindow(display,win);
-	XMapRaised(display,win);	
-	wmdeleteMessage = XInternAtom(display, "WM_DELETE_WINDOW", False);
-	XSetWMProtocols(display, win, &wmdeleteMessage, 1);
-	XSetBackground(display,gc,black);
-	XSetForeground(display,gc,white);
-	XSync(display,FALSE);
- 	sleep(1);	
-	backgroundColor.red=backgroundColor.green=backgroundColor.blue=0;
-	foregroundColor.red=foregroundColor.green=foregroundColor.blue=255;
+    
+    int i;
+    unsigned long valuemask;
+    XSetWindowAttributes  attributes;
+    
+    sprintf(win_title,"PLATOterm: %s:%u",hostname,port);
+    display=XOpenDisplay((char *)0);
+    screen=DefaultScreen(display);
+    
+    attributes.background_pixel = BlackPixel(display,screen);
+    attributes.border_pixel     = WhitePixel(display,screen);
+    attributes.event_mask       = ButtonPressMask;
+    
+    // win=XCreateSimpleWindow(display,DefaultRootWindow(display),0,0,512,512,5,white,black);
+    valuemask = CWBackPixel | CWBorderPixel | CWEventMask;
+    win = XCreateWindow(display,
+                        RootWindow(display,screen),
+                        0,0,512,512,5,
+                        DefaultDepth(display, screen),
+                        InputOutput,
+                        DefaultVisual(display, screen),
+                        valuemask, &attributes);
+    
+    XSetStandardProperties(display,win,win_title,win_title,None,NULL,0,NULL);
+    XSelectInput(display,win,ExposureMask|ButtonPressMask|KeyPressMask);
+    gc=XCreateGC(display,win,0,0);
+    colormap = DefaultColormap(display, DefaultScreen(display));
+    XClearWindow(display,win);
+    XMapRaised(display,win);	
+    wmdeleteMessage = XInternAtom(display, "WM_DELETE_WINDOW", False);
+    XSetWMProtocols(display, win, &wmdeleteMessage, 1);
+    XSetBackground(display,gc,black);
+    XSetForeground(display,gc,white);
+    XSync(display,FALSE);
+    sleep(1);	
+    backgroundColor.red=backgroundColor.green=backgroundColor.blue=0;
+    foregroundColor.red=foregroundColor.green=foregroundColor.blue=255;
 }
 
 /**
