@@ -1,7 +1,7 @@
 ***********************************************************************
 **           Preliminary Documentation for PLATOTerm UNIX (X11)      **
 ***********************************************************************
-
+NOTE: This is an experimental version of PLATOTerm Unix (X11)
 NOTE: This documentation is preliminary. Expect errors.
 
 ------------------
@@ -82,6 +82,24 @@ What do I need to run PLATOTerm and connect to CYBIS?
 * X11 of some sort
 * C compiler with Xlib headers.
 
+
+----------------
+Tested Platforms
+----------------
+
+| OS        | Arch  | Notes   |
+|:---------:|:-----:|:-------:|
+| OpenBSD   | i386  | OK      |
+| OpenBSD   | PPC   | no text |
+| OpenBSD   | mad64 | OK      |
+| NetBSD    | i386  | OK      |
+| Debian 11 | i386  | OK      |
+| FreeBSD   | ARM64 | no text |
+| Debian 6  | ARMv7 | no text |
+| OpenBSD   | HPPA  | TODO    |
+| MacOS X   | PPC   | TODO    |
+|           |       |         |
+
 ------------------
 Starting PLATOTerm
 ------------------
@@ -111,41 +129,41 @@ PLATO terminals had a lot of very special keys, which must be mapped to
 equivalent keys on a PC keyboard. The following table shows the
 PLATO and equivent PC keys:
 
-|  PLATO        |  PC                     |
-|---------------|-------------------------|
-|  ANS          |  CTRL-A                 |
-|  BACK         |  CTRL-B                 |
-|  BACK1        |  CTRL-SHIFT-B           |
-|  COPY         |  CTRL-C                 |
-|  COPY1        |  CTRL-SHIFT-C           |
-|  DATA         |  CTRL-D                 |
-|  DATA1        |  CTRL-SHIFT-D           |
-|  EDIT         |  CTRL-E                 |
-|  EDIT1        |  CTRL-SHIFT-E           |
-|  FONT         |  CTRL-F                 |
-|  DIVIDE       |  CTRL-G                 |
-|  HELP         |  CTRL-H                 |
-|  HELP1        |  CTRL-SHIFT-H           |
-|  LAB          |  CTRL-L                 |
-|  LAB1         |  CTRL-SHIFT-L           |
-|  MICRO        |  CTRL-M                 |
-|  NEXT         |  ENTER                  |
-|  NEXT1        |  SHIFT-ENTER            |
-|  SUPER        |  CTRL-P                 |
-|  SUPER1       |  CTRL-SHIFT-P           |
-|  SQUARE       |  CTRL-Q                 |
-|  ACCESS       |  CTRL-SHIFT-Q           |
-|  ERASE        |  CTRL-R                 |
-|  ERASE1       |  CTRL-SHIFT-R           |
-|  STOP         |  CTRL-S                 |
-|  STOP1        |  CTRL-SHIFT-S           |
-|  TERM         |  CTRL-T                 |
-|  MULTIPLY     |  CTRL-X                 |
-|  SUB          |  CTRL-Y                 |
-|  SUB1         |  CTRL-SHIFT-Y           |
-|  SIGMA        |  CTRL-+                 |
-|  DELTA        |  CTRL--                 |
-|  ASSIGN       |  ESC                    |
+| PLATO    | PC           |
+|:--------:|:------------:|
+| ANS      | CTRL-A       |
+| BACK     | CTRL-B       |
+| BACK1    | CTRL-SHIFT-B |
+| COPY     | CTRL-C       |
+| COPY1    | CTRL-SHIFT-C |
+| DATA     | CTRL-D       |
+| DATA1    | CTRL-SHIFT-D |
+| EDIT     | CTRL-E       |
+| EDIT1    | CTRL-SHIFT-E |
+| FONT     | CTRL-F       |
+| DIVIDE   | CTRL-G       |
+| HELP     | CTRL-H       |
+| HELP1    | CTRL-SHIFT-H |
+| LAB      | CTRL-L       |
+| LAB1     | CTRL-SHIFT-L |
+| MICRO    | CTRL-M       |
+| NEXT     | ENTER        |
+| NEXT1    | SHIFT-ENTER  |
+| SUPER    | CTRL-P       |
+| SUPER1   | CTRL-SHIFT-P |
+| SQUARE   | CTRL-Q       |
+| ACCESS   | CTRL-SHIFT-Q |
+| ERASE    | CTRL-R       |
+| ERASE1   | CTRL-SHIFT-R |
+| STOP     | CTRL-S       |
+| STOP1    | CTRL-SHIFT-S |
+| TERM     | CTRL-T       |
+| MULTIPLY | CTRL-X       |
+| SUB      | CTRL-Y       |
+| SUB1     | CTRL-SHIFT-Y |
+| SIGMA    | CTRL-+       |
+| DELTA    | CTRL--       |
+| ASSIGN   | ESC          |
 
 -------------------
 Further information
