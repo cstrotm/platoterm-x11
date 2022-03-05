@@ -1,7 +1,7 @@
-/**
- * PLATOTerm64 - A PLATO Terminal for the Commodore 64
+/*
+ * PLATOTermX11 - A PLATO Terminal for Unix X11 GUI
  * Based on Steve Peltz's PAD
- * 
+ *
  * Author: Thomas Cherryhomes <thom.cherryhomes at gmail dot com>
  *
  * screen.c - Display output functions
@@ -13,6 +13,7 @@
 #include <X11/keysym.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "splash.h"
 #include "screen.h"
 #include "protocol.h"
@@ -65,6 +66,12 @@ short a,b;
 	return ( a < b ) ? a : b;
 }
 
+/* an X11 error handler that does nothing */
+static int nopErrorHandler (Display* disp, XErrorEvent e)
+{
+  return EXIT_SUCCESS;
+}
+
 /**
  * screen_init() - Set up the screen
  */
@@ -84,15 +91,16 @@ unsigned short port;
 	gc=XCreateGC(display,win,0,0);
 	colormap = DefaultColormap(display, DefaultScreen(display));
 	XClearWindow(display,win);
-	XMapRaised(display,win);	
+	XMapRaised(display,win);
 	wmdeleteMessage = XInternAtom(display, "WM_DELETE_WINDOW", False);
 	XSetWMProtocols(display, win, &wmdeleteMessage, 1);
 	XSetBackground(display,gc,black);
 	XSetForeground(display,gc,white);
 	XSync(display,FALSE);
- 	sleep(1);	
+ 	sleep(1);
 	backgroundColor.red=backgroundColor.green=backgroundColor.blue=0;
 	foregroundColor.red=foregroundColor.green=foregroundColor.blue=255;
+  fprintf(stderr,"ScreenInit....");
 }
 
 /**
@@ -111,7 +119,7 @@ void screen_main()
 		ks = XLookupKeysym(&event.xkey, event.xkey.state & ShiftMask ? 1 : 0);
         	control_pressed = (event.xkey.state & ControlMask ? TRUE : FALSE);
         	shift_pressed =   (event.xkey.state & ShiftMask   ? TRUE : FALSE);
-		keyboard_main(ks,control_pressed,shift_pressed);	
+		keyboard_main(ks,control_pressed,shift_pressed);
         }
 	else if (event.type == ButtonPress && event.xbutton.state)
 	{
@@ -162,8 +170,8 @@ void screen_clear()
 	screen_background(&backgroundColor);
 	screen_foreground(&foregroundColor);
 	XSetWindowBackground(display,win,backgroundPixel);
-	XClearWindow(display,win);	
-	XSetForeground(display,gc,backgroundPixel);	
+	XClearWindow(display,win);
+	XSetForeground(display,gc,backgroundPixel);
 	XFillRectangle(display,win,gc,0,0,512,512);
 	XSetForeground(display,gc,foregroundPixel);
 	XSetBackground(display,gc,backgroundPixel);
@@ -197,8 +205,8 @@ padPt *Coord2;
 
 	x1=min(Coord1->x,Coord2->x);
 	x2=max(Coord1->x,Coord2->x);
-	y1=min(Coord1->y^0x1FF,Coord2->y^0x1FF);
-	y2=max(Coord1->y^0x1FF,Coord2->y^0x1FF);
+	y1=min(Coord1->y^0x1ff,Coord2->y^0x1ff);
+	y2=max(Coord1->y^0x1ff,Coord2->y^0x1ff);
 	screen_set_pen_mode();
 	XFillRectangle(display, win, gc, x1, y1, x2-x1, y2-y1);
 }
@@ -210,7 +218,7 @@ screen_dot_draw(Coord)
 padPt* Coord;
 {
 	screen_set_pen_mode();
-	XDrawPoint(display, win, gc, Coord->x, Coord->y^0x1FF);
+	XDrawPoint(display, win, gc, Coord->x, Coord->y^0x1ff);
 }
 
 /**
@@ -221,7 +229,7 @@ padPt* Coord1;
 padPt* Coord2;
 {
 	screen_set_pen_mode();
-	XDrawLine(display, win, gc, Coord1->x, Coord1->y^0x1FF, Coord2->x, Coord2->y^0x1FF);
+	XDrawLine(display, win, gc, Coord1->x, Coord1->y^0x1ff, Coord2->x, Coord2->y^0x1ff);
 }
 
 /**
@@ -251,13 +259,13 @@ unsigned char count;
 
   if (CurMode==ModeRewrite)
     {
-	altColor=backgroundPixel; 
+	altColor=backgroundPixel;
     }
   else if (CurMode==ModeInverse)
     {
-   	altColor=foregroundPixel; 
+   	altColor=foregroundPixel;
     }
- 
+
   if (CurMode==ModeErase || CurMode==ModeInverse)
     {
       mainColor=backgroundPixel;
@@ -266,7 +274,7 @@ unsigned char count;
     {
       mainColor=foregroundPixel;
     }
- 
+
   switch(CurMem)
     {
     case M0:
@@ -288,50 +296,50 @@ unsigned char count;
      }
   x=Coord->x;
   if (ModeBold)
-    y=((Coord->y+30)^0x1FF)&0x1FF;
-  else    
-    y=((Coord->y+15)^0x1FF)&0x1FF;
-     
+    y=((Coord->y+30)^0x1ff)&0x1ff;
+  else
+    y=((Coord->y+15)^0x1ff)&0x1ff;
+
   if (FastText==padF)
     {
       goto chardraw_with_fries;
     }
- 
+
   /* the diet chardraw routine - fast text output. */
- 
+
   for (i=0;i<count;++i)
     {
       a=*ch;
       ++ch;
       a+=offset;
       p=&curfont[FONTPTR(a)];
-      
+
       for (j=0;j<16;++j)
         {
           b=*p;
-          
+
           for (k=0;k<8;++k)
             {
               if (b<0) /* check sign bit. */
 		{
-			XSetForeground(display,gc,mainColor);	
-			XDrawPoint(display,win,gc,x,y);    
+			XSetForeground(display,gc,mainColor);
+			XDrawPoint(display,win,gc,x,y);
 		}
               ++x;
               b<<=1;
             }
- 
+
           ++y;
           x-=width;
           ++p;
         }
-          
+
       x+=width;
       y-=height;
     }
- 
+
   return;
- 
+
  chardraw_with_fries:
   if (Rotate)
     {
@@ -345,14 +353,14 @@ unsigned char count;
       px=&x;
       py=&y;
     }
- 
+
   if (ModeBold)
     {
       deltaX = deltaY = 2;
       width<<=1;
       height<<=1;
     }
- 
+
   for (i=0;i<count;++i)
     {
       a=*ch;
@@ -362,7 +370,7 @@ unsigned char count;
       for (j=0;j<16;++j)
         {
           b=*p;
- 
+
           if (Rotate)
             {
               px=&y;
@@ -373,49 +381,49 @@ unsigned char count;
               px=&x;
               py=&y;
             }
- 
+
           for (k=0;k<8;++k)
             {
               if (b<0) /* check sign bit. */
                 {
-		  XSetForeground(display,gc,mainColor);
+                  XSetForeground(display,gc,mainColor);
                   if (ModeBold)
                     {
-			XDrawPoint(display,win,gc,*px+1,*py);
-			XDrawPoint(display,win,gc,*px,*py+1);
-			XDrawPoint(display,win,gc,*px+1,*py+1);
+                      XDrawPoint(display,win,gc,*px+1,*py);
+                      XDrawPoint(display,win,gc,*px,*py+1);
+                      XDrawPoint(display,win,gc,*px+1,*py+1);
                     }
-		  XDrawPoint(display,win,gc,*px,*py);
+                  XDrawPoint(display,win,gc,*px,*py);
                 }
               else
                 {
                   if (CurMode==ModeInverse || CurMode==ModeRewrite)
                     {
-		      XSetForeground(display,gc,altColor);
+                      XSetForeground(display,gc,altColor);
                       if (ModeBold)
                         {
-			  XDrawPoint(display,win,gc,*px+1,*py);
-			  XDrawPoint(display,win,gc,*px,*py+1);
-			  XDrawPoint(display,win,gc,*px+1,*py+1); 
+                          XDrawPoint(display,win,gc,*px+1,*py);
+                          XDrawPoint(display,win,gc,*px,*py+1);
+                          XDrawPoint(display,win,gc,*px+1,*py+1);
                         }
-		      XDrawPoint(display,win,gc,*px,*py);
+                      XDrawPoint(display,win,gc,*px,*py);
                     }
                 }
- 
+
               x += deltaX;
               b<<=1;
             }
- 
+
           y+=deltaY;
           x-=width;
           ++p;
         }
-          
+
       Coord->x+=width;
       x+=width;
       y-=height;
     }
- 
+
   return;
 }
 
@@ -428,7 +436,7 @@ padByte theChar;
   if ((theChar >= 0x20) && (theChar < 0x7F)) {
     screen_char_draw(&TTYLoc, &theChar, 1);
     TTYLoc.x += CharWide;
-  }  
+  }
   else if (theChar == 0x0b) /* Vertical Tab */
     {
       TTYLoc.y += CharHigh;
@@ -441,16 +449,16 @@ padByte theChar;
     TTYLoc.y -= CharHigh;
   else if (theChar == 0x0D)/* carriage return */
     TTYLoc.x = 0;
-     
+
   if (TTYLoc.x + CharWide > 511) {/* wrap at right side */
     TTYLoc.x = 0;
     TTYLoc.y -= CharHigh;
-  }  
-     
+  }
+
   if (TTYLoc.y < 0) {
     screen_clear();
     TTYLoc.y=495;
-  }  
+  }
 }
 
 /**
@@ -484,7 +492,7 @@ padRGB* platocolor;
 
 	if (platocolor->red == 255 && platocolor->green == 255 && platocolor->blue==255)
 	{
-		return white; 
+		return white;
 	}
 	else if (platocolor->red == 0 && platocolor->green == 0 && platocolor->blue == 0)
 	{
@@ -497,7 +505,7 @@ padRGB* platocolor;
 		{
 			color[usedColors].red = platocolor->red << 8;
 			color[usedColors].green = platocolor->green << 8;
-			color[usedColors].blue = platocolor->blue << 8; 
+			color[usedColors].blue = platocolor->blue << 8;
 			XAllocColor(display,colormap,&color[usedColors]);
 			return color[usedColors++].pixel;
 		}
@@ -512,7 +520,7 @@ padRGB* platocolor;
                             (r.green == platocolor->green) &&
                             (r.blue == platocolor->blue))
 			{
-				return color[i].pixel;	
+				return color[i].pixel;
 			}
 		}
 	}
@@ -565,18 +573,116 @@ unsigned long oldpixel,newpixel;
 	_screen_paint(x,y+1,oldpixel,newpixel);
 }
 
+static void _screen_paint_new(XImage *image,
+                              int x,
+                              int y,
+                              unsigned long oldpixel,
+                              unsigned long newpixel,
+                              int width,
+                              int height)
+{
+  fprintf(stderr,"Oldpixel: %u\n",oldpixel);
+  fprintf(stderr,"Newpixel: %u\n",newpixel);
+
+  if(XGetPixel(image,x,y) == oldpixel)
+    _NewFill(image,x,y,width,height,oldpixel,newpixel);
+}
+
+static void _NewFill(XImage *image, int x, int y, int width, int height,
+                     unsigned long oldpixel, unsigned long newpixel)
+{
+  fprintf(stderr,"NewFill\n");
+  while (True)
+    {
+      int ox = x, oy = y;
+      while(y != 0 && XGetPixel(image,x,y-1) == oldpixel) y--;
+      while(x != 0 && XGetPixel(image,x-1,y) == oldpixel) x--;
+      if (x == ox && y == oy) break;
+    }
+  NewFillCore(image,x,y,width,height,oldpixel,newpixel);
+}
+
+void _XPutPixel(XImage *ximage, int x, int y, unsigned long pixel)
+{
+  fprintf(stderr,"XPutPixel %i,%i,%u",x,y,pixel);
+  XPutPixel(ximage,x,y,pixel);
+}
+
+static void NewFillCore(XImage *image, int x, int y, int width, int height,
+                        unsigned long oldpixel, unsigned long newpixel)
+{
+  fprintf(stderr,"NewFillCore...\n");
+  int lastRowLength = 0;
+  do
+    {
+      int rowLength = 0, sx = x;
+      if (lastRowLength != 0 && XGetPixel(image,x,y) == newpixel)
+        {
+          do
+            {
+              if(--lastRowLength == 0) return;
+            } while(XGetPixel(image,++x,y) == newpixel);
+          sx = x;
+        }
+      else
+        {
+          fprintf(stderr,"2.. %u %u %i %i\n",XGetPixel(image,x-1,y),oldpixel,x-1,y);
+          for (; x != 0 && XGetPixel(image,x-1,y) == oldpixel; rowLength++, lastRowLength++)
+            {
+              fprintf(stderr,"2.1 %u %u %i %i\n",XGetPixel(image,x-1,y),oldpixel,x-1,y);
+              _XPutPixel(image,--x,y,newpixel);
+              if (y != 0 && XGetPixel(image,x,y-1) == oldpixel)
+                _NewFill(image,x, y-1, width, height, oldpixel, newpixel);
+            }
+        }
+      for(; sx < width && XGetPixel(image,x,y-1) == oldpixel; rowLength++, sx++) {
+        fprintf(stderr,"3.. %u %u %i %i\n",XGetPixel(image,sx,y),oldpixel,sx,y);
+        _XPutPixel(image,sx,y,newpixel);
+      }
+      if(rowLength < lastRowLength)
+        {
+          for(int end=x+lastRowLength; ++sx < end; )
+            {
+              if(XGetPixel(image,sx,y) == oldpixel)
+                NewFillCore(image,sx,y,width,height,oldpixel,newpixel);
+            }
+        }
+      else if (rowLength > lastRowLength && y != 0)
+        {
+          for(int ux=x+lastRowLength; ++ux<sx; )
+            {
+              if(XGetPixel(image,ux,y-1) == oldpixel)
+                _NewFill(image,ux,y-1,width,height,oldpixel,newpixel);
+            }
+        }
+      lastRowLength = rowLength;
+    } while(lastRowLength != 0 && ++y < height);
+}
+
+
 screen_paint(Coord)
 padPt* Coord;
 {
 	int x = Coord->x;
-	int y = Coord->y^0x1FF;
- 	unsigned long oldpixel;	
+	int y = Coord->y^0x1ff;
+ 	unsigned long oldpixel;
+  XErrorHandler eh;
 
+  // a custom X11 error handler that prevents 'bad match' errors if window
+  // is not fully visible on screen
+  eh = XSetErrorHandler(nopErrorHandler);
 	image = XGetImage(display,win,0,0,511,511,AllPlanes,XYPixmap);
-	oldpixel = XGetPixel(image,x,y);
-	_screen_paint(x,y,oldpixel,foregroundPixel);
-	XPutImage(display,win,gc,image,0,0,0,0,511,511);
-	XDestroyImage(image);
+  XSetErrorHandler(eh);
+
+  if(image != NULL) {
+    oldpixel = XGetPixel(image,x,y);
+    //	_screen_paint(x,y,oldpixel,foregroundPixel);
+    fprintf(stderr,"ScreenPaintNew...\n");
+    _screen_paint_new(image,x+10,y+10,oldpixel,foregroundPixel,511,511);
+    XPutImage(display,win,gc,image,0,0,0,0,511,511);
+    XDestroyImage(image);
+  }
+
 }
 
 /**
