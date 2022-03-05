@@ -6,16 +6,17 @@ STRIP?=strip
 ThisOS != sh -c 'uname -s 2>/dev/null || echo not'
 
 # SunOS (Solaris)
-SunOS_X11_INCLUDE=$(ThisOS:SunOS=/usr/openwin/include)
-SunOS_X11_LIBS=$(ThisOS:SunOS=/usr/openwin/lib)
+SunOS_X11_INCLUDE=/usr/openwin/include
+SunOS_X11_LIBS=/usr/openwin/lib
 
 # Linux
-Linux_X11_LIBS=$(ThisOS:Linux=/usr/X11/lib)
-Linux_EXTRALIBS=$(ThisOS:Linux=-lbsd)
+Linux_X11_LIBS=/usr/X11/lib
+Linux_X11_INCLUDE=/usr/X11R6/include
+Linux_EXTRALIBS=-lbsd
 
 # OpenBSD
-OpenBSD_X11_LIBS=$(ThisOS:OpenBSD=/usr/X11R6/lib)
-OpenBSD_X11_INCLUDE=$(ThisOS:OpenBSD=/usr/X11R6/include)
+OpenBSD_X11_LIBS=/usr/X11R6/lib
+OpenBSD_X11_INCLUDE=/usr/X11R6/include
 
 OBJ=main.o touch.o io.o keyboard.o screen.o terminal.o protocol.o
 
