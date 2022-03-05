@@ -30,7 +30,7 @@ main.o: main.c
 	$(CC) -g $(CFLAGS) -o $@ -c main.c
 
 platoterm: $(OBJ)
-	$(CC) -g $(CFLAGS) -L$(X11_LIBS) -o $@ $(OBJ) -lX11
+	$(CC) -g $(CFLAGS) -L$(X11_LIBS) -o $@ $(OBJ) -lX11 -lbsd
 
 clean:
 	rm -rf platoterm $(OBJ)
