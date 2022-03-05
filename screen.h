@@ -7,6 +7,9 @@
  * screen.h - Display output functions
  */
 
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+
 #ifndef SCREEN_H
 #define SCREEN_H
 

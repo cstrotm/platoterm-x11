@@ -100,7 +100,7 @@ unsigned short port;
  	sleep(1);
 	backgroundColor.red=backgroundColor.green=backgroundColor.blue=0;
 	foregroundColor.red=foregroundColor.green=foregroundColor.blue=255;
-  fprintf(stderr,"ScreenInit....");
+  fprintf(stderr,"ScreenInit....\n");
 }
 
 /**
