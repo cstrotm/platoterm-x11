@@ -259,11 +259,11 @@ unsigned char count;
 
   if (CurMode==ModeRewrite)
     {
-	altColor=backgroundPixel;
+      altColor=backgroundPixel;
     }
   else if (CurMode==ModeInverse)
     {
-   	altColor=foregroundPixel;
+      altColor=foregroundPixel;
     }
 
   if (CurMode==ModeErase || CurMode==ModeInverse)
@@ -300,7 +300,7 @@ unsigned char count;
   else
     y=((Coord->y+15)^0x1ff)&0x1ff;
 
-  if (FastText==padF)
+    if (FastText==padF)
     {
       goto chardraw_with_fries;
     }
@@ -320,11 +320,11 @@ unsigned char count;
 
           for (k=0;k<8;++k)
             {
-              if (b<0) /* check sign bit. */
-		{
-			XSetForeground(display,gc,mainColor);
-			XDrawPoint(display,win,gc,x,y);
-		}
+              if (b & 0x80) /* check sign bit. */
+              {
+                  XSetForeground(display,gc,mainColor);
+                  XDrawPoint(display,win,gc,x,y);
+              }
               ++x;
               b<<=1;
             }
@@ -384,7 +384,7 @@ unsigned char count;
 
           for (k=0;k<8;++k)
             {
-              if (b<0) /* check sign bit. */
+              if (b & 0x80) /* check sign bit. */
                 {
                   XSetForeground(display,gc,mainColor);
                   if (ModeBold)
