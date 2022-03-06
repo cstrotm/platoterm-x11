@@ -18,6 +18,10 @@ Linux_EXTRALIBS=-lbsd
 OpenBSD_X11_LIBS=/usr/X11R6/lib
 OpenBSD_X11_INCLUDE=/usr/X11R6/include
 
+# FreeBSD
+FreeBSD_X11_LIBS=/usr/local/lib
+FreeBSD_X11_INCLUDE=/usr/local/include
+
 OBJ=main.o touch.o io.o keyboard.o screen.o terminal.o protocol.o
 
 all: platoterm
