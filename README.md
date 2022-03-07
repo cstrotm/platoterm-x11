@@ -178,4 +178,18 @@ Should you need further information, updates, etc. You can check:
 Don't forget to check out http://www.cyber1.org/
 
 The author can be reached on IRATA.ONLINE as thomas cherryhomes / atari
+
+===========================
+X11 Development information
+===========================
+
+* Basic Graphics Programming With The Xlib Library https://ftp.dim13.org/pub/doc/Xlib.pdf
+* Basic Graphics Programming With The XCB Library https://x.org/releases/X11R7.5/doc/libxcb/tutorial/
+* Documentation for the X Window System Version 11 Release 7.7 (X11R7.7) https://www.x.org/releases/X11R7.7/doc/index.html
+* Xlib - C Language X Interface https://www.x.org/releases/X11R7.7/doc/libX11/libX11/libX11.html
+* X11 code examples https://www.lemoda.net/xwindows/index.html
+* Volume One: Xlib Programming Manual https://arcturus.su/~alvin/docs/xlpm/
+* X11 Releases https://x.org/releases/
+* Learning to Use X11 https://www.linuxjournal.com/article/4879
+ 
 
