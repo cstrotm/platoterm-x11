@@ -179,9 +179,9 @@ Don't forget to check out http://www.cyber1.org/
 
 The author can be reached on IRATA.ONLINE as thomas cherryhomes / atari
 
-===========================
+---------------------------
 X11 Development information
-===========================
+---------------------------
 
 * Basic Graphics Programming With The Xlib Library https://ftp.dim13.org/pub/doc/Xlib.pdf
 * Basic Graphics Programming With The XCB Library https://x.org/releases/X11R7.5/doc/libxcb/tutorial/
