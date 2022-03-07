@@ -87,18 +87,19 @@ What do I need to run PLATOTerm and connect to CYBIS?
 Tested Platforms
 ----------------
 
-| OS        | Arch  | Notes         |
-|:---------:|:-----:|:-------------:|
-| OpenBSD   | i386  | OK            |
-| OpenBSD   | PPC   | OK            |
-| OpenBSD   | mad64 | OK            |
-| NetBSD    | i386  | OK            |
-| Debian 11 | i386  | OK            |
-| FreeBSD   | ARM64 | OK            |
-| Debian 6  | ARMv7 | TODO (retest) |
-| OpenBSD   | HPPA  | TODO          |
-| MacOS X   | PPC   | TODO          |
-|           |       |               |
+| OS                     | Arch  | Notes                |
+|:----------------------:|:-----:|:--------------------:|
+| OpenBSD                | i386  | OK                   |
+| OpenBSD                | PPC   | OK                   |
+| OpenBSD                | mad64 | OK                   |
+| NetBSD                 | i386  | OK                   |
+| Debian 11              | i386  | OK                   |
+| FreeBSD                | ARM64 | OK                   |
+| Debian 6               | ARMv7 | TODO (retest)        |
+| OpenBSD                | HPPA  | TODO                 |
+| MacOS X                | PPC   | TODO                 |
+| Void Linux (musl libc) | amd64 | OK (fgetln issue #2) |
+|                        |       |                      |
 
 ------------------
 Starting PLATOTerm
