@@ -1,5 +1,7 @@
 /* PLATOTERM for UNIX */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "protocol.h"
 #include "screen.h"
 #include "io.h"
@@ -11,9 +13,12 @@
 #define FALSE 0
 
 unsigned char already_started=FALSE;
+unsigned char fill = TRUE;
 int done = FALSE;
 char hostname[64];
 unsigned short port;
+
+char* env_var;
 
 main(argc, argv)
 int argc;
@@ -30,6 +35,11 @@ char *argv[];
 	  port=atoi(argv[2]);
 	}
 
+	env_var = getenv("PLATOTERM_DOFILL");
+	if(env_var) {
+	  if(env_var[0]=='N' || env_var[0]=='n')
+	    fill=FALSE;
+	}
 
 	screen_init(hostname,port);
 	touch_init();

@@ -24,6 +24,7 @@ unsigned char CharWide=8;
 padPt TTYLoc;
 
 extern int done;
+extern unsigned char fill;
 
 unsigned char fontm23[2048];
 padRGB backgroundColor={0,0,0};
@@ -668,19 +669,21 @@ padPt* Coord;
  	unsigned long oldpixel;
 	XErrorHandler eh;
 
+	if(!fill)
+	  return;
 	// a custom X11 error handler that prevents 'bad match' errors if window
 	// is not fully visible on screen
 	eh = XSetErrorHandler(nopErrorHandler);
-	//image = XGetImage(display,win,0,0,511,511,AllPlanes,XYPixmap);
+	image = XGetImage(display,win,0,0,511,511,AllPlanes,XYPixmap);
 	XSetErrorHandler(eh);
 
 	if(image != NULL) {
 	  oldpixel = XGetPixel(image,x,y);
 	  //	_screen_paint(x,y,oldpixel,foregroundPixel);
-	  //fprintf(stderr,"ScreenPaintNew...\n");
-	  //_screen_paint_new(image,x+10,y+10,oldpixel,foregroundPixel,511,511);
-	  //XPutImage(display,win,gc,image,0,0,0,0,511,511);
-	  //XDestroyImage(image);
+	  fprintf(stderr,"ScreenPaintNew...\n");
+	  _screen_paint_new(image,x+10,y+10,oldpixel,foregroundPixel,511,511);
+	  XPutImage(display,win,gc,image,0,0,0,0,511,511);
+	  XDestroyImage(image);
 	}
 
 }
