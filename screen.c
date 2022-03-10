@@ -127,7 +127,7 @@ void screen_main()
 	}
 	else if (event.type == ClientMessage)
 	{
-		screen_handle_client_message(display, &event);
+		screen_handle_client_message(display, event);
 	}
 	else if (event.type == Expose)
 	{
@@ -136,13 +136,13 @@ void screen_main()
 }
 
 screen_handle_client_message(display, e)
-Display display;
-XEvent *e;
+Display *display;
+XEvent e;
 {
-	if ((Atom)e->xclient.data.l[0]==wmdeleteMessage)
-	{
-		done = TRUE;
-	}
+  if ((Atom)e.xclient.data.l[0] == wmdeleteMessage)
+    {
+      done = TRUE;
+    }
 }
 
 /**
@@ -666,22 +666,22 @@ padPt* Coord;
 	int x = Coord->x;
 	int y = Coord->y^0x1ff;
  	unsigned long oldpixel;
-  XErrorHandler eh;
+	XErrorHandler eh;
 
-  // a custom X11 error handler that prevents 'bad match' errors if window
-  // is not fully visible on screen
-  eh = XSetErrorHandler(nopErrorHandler);
-	image = XGetImage(display,win,0,0,511,511,AllPlanes,XYPixmap);
-  XSetErrorHandler(eh);
+	// a custom X11 error handler that prevents 'bad match' errors if window
+	// is not fully visible on screen
+	eh = XSetErrorHandler(nopErrorHandler);
+	//image = XGetImage(display,win,0,0,511,511,AllPlanes,XYPixmap);
+	XSetErrorHandler(eh);
 
-  if(image != NULL) {
-    oldpixel = XGetPixel(image,x,y);
-    //	_screen_paint(x,y,oldpixel,foregroundPixel);
-    fprintf(stderr,"ScreenPaintNew...\n");
-    _screen_paint_new(image,x+10,y+10,oldpixel,foregroundPixel,511,511);
-    XPutImage(display,win,gc,image,0,0,0,0,511,511);
-    XDestroyImage(image);
-  }
+	if(image != NULL) {
+	  oldpixel = XGetPixel(image,x,y);
+	  //	_screen_paint(x,y,oldpixel,foregroundPixel);
+	  //fprintf(stderr,"ScreenPaintNew...\n");
+	  //_screen_paint_new(image,x+10,y+10,oldpixel,foregroundPixel,511,511);
+	  //XPutImage(display,win,gc,image,0,0,0,0,511,511);
+	  //XDestroyImage(image);
+	}
 
 }
 
