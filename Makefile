@@ -22,6 +22,10 @@ OpenBSD_X11_INCLUDE=/usr/X11R6/include
 FreeBSD_X11_LIBS=/usr/local/lib
 FreeBSD_X11_INCLUDE=/usr/local/include
 
+# DragonFlyBSD
+DragonFly_X11_LIBS=/usr/local/lib
+DragonFly_X11_INCLUDE=/usr/local/include
+
 OBJ=main.o touch.o io.o keyboard.o screen.o terminal.o protocol.o
 
 all: platoterm

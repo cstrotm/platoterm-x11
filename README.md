@@ -91,7 +91,8 @@ Tested Platforms
 |:----------------------:|:-----:|:--------------------:|
 | OpenBSD                | i386  | OK                   |
 | OpenBSD                | PPC   | OK                   |
-| OpenBSD                | mad64 | OK                   |
+| OpenBSD                | amd64 | OK                   |
+| DragonFly BSD          | amd64 | OK                   |
 | NetBSD                 | i386  | OK                   |
 | Debian 11              | i386  | OK                   |
 | FreeBSD                | ARM64 | OK                   |
@@ -191,5 +192,5 @@ X11 Development information
 * Volume One: Xlib Programming Manual https://arcturus.su/~alvin/docs/xlpm/
 * X11 Releases https://x.org/releases/
 * Learning to Use X11 https://www.linuxjournal.com/article/4879
- 
+
 
