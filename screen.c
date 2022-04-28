@@ -661,7 +661,7 @@ static void NewFillCore(XImage *image, int x, int y, int width, int height,
 }
 
 
-screen_paint(Coord)
+void screen_paint(Coord)
 padPt* Coord;
 {
 	int x = Coord->x;
